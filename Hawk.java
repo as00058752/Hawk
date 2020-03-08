@@ -192,9 +192,7 @@ public class Hawk {
         catch (IOException e){
             System.out.println(e);
         }
-        
-        width = this.img.getWidth();
-        height = this.img.getHeight();
+        this.resetValues();
     }
     
     public int getPixelValue(int x, int y){
@@ -243,5 +241,18 @@ public class Hawk {
                 catch (Exception e){}
             }
         }
+    }
+    
+    public void resetValues(){
+        this.width = this.img.getWidth();
+        this.height = this.img.getHeight();
+        this.getRgbMax();
+        this.xCenter = 0;
+        this.yCenter = 0;
+        this.maxCrossSection = 0; 
+        this.xI = 0;
+        this.xF = 0;
+        this.yI = 0;
+        this.yF = 0;
     }
 }

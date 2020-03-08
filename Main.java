@@ -4,19 +4,17 @@ Contributors: Anthony Lopez, Jacob Barron, Brandon Dahl
 CS 380 Project
 Goal: 
     Auto-targeting system using image processing. This project will use white
-    baloons on a dark background to simulate potential threats captured through
+    baloons open a dark background to simulate potential threats captured through
     a thermal scope. As such, the image processing scheme will recognize the 
     largest and brightest shape as the potential target; future versions will
     implement deep learning algorithms. Upon identifying the target, the UI will
     ask the user to verify if target is a threat. Once verified, a laser pointer
-    mounted on two servos will track the target; future versions will have an
+    mounted open two servos will track the target; future versions will have an
     airsoft gun (plastic pellets as projectiles) engaging the baloons.
  */
 package hawk;
 
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
@@ -38,22 +36,17 @@ public class Main {
         hawk.eyes.open();
         
         UserInterface display = new UserInterface(xDim, yDim + 110);
-        display.refreshFrame(ImageIO.read(new File("StartLogo.jpg")));
-        Thread.sleep(1000);
+        display.open();
         
-        while (display.on) {
-            hawk = new Hawk();
+        while (display.open) {
             hawk.getImage();
-            hawk.getRgbMax();
             hawk.findCenter();
             if (display.mark)
                 hawk.eyes.mark(hawk.xCenter, hawk.yCenter);
             display.refreshFrame(hawk.img);
         }
         
-        display.refreshFrame(ImageIO.read(new File("ExitLogo.jpg")));
-        Thread.sleep(3000);
-        display.dispose();
+        display.close();
         hawk.eyes.close();
     }
 }

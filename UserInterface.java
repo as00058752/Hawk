@@ -4,12 +4,12 @@ Contributors: Anthony Lopez, Jacob Barron, Brandon Dahl
 CS 380 Project
 Goal: 
     Auto-targeting system using image processing. This project will use white
-    baloons on a dark background to simulate potential threats captured through
+    baloons open a dark background to simulate potential threats captured through
     a thermal scope. As such, the image processing scheme will recognize the 
     largest and brightest shape as the potential target; future versions will
     implement deep learning algorithms. Upon identifying the target, the UI will
     ask the user to verify if target is a threat. Once verified, a laser pointer
-    mounted on two servos will track the target; future versions will have an
+    mounted open two servos will track the target; future versions will have an
     airsoft gun (plastic pellets as projectiles) engaging the baloons.
  */
 package hawk;
@@ -30,7 +30,7 @@ Last update: 03/07/2020 by Anh(Steven) Nguyen
  */
 
 public class UserInterface extends JFrame implements ActionListener {
-    boolean on, mark;
+    boolean open, mark;
     private static int winxpos=0,winypos=0; // place window here
     private JButton button1,exitButton, button2, button3,
             button4, button5, button6, button7;
@@ -42,7 +42,7 @@ public class UserInterface extends JFrame implements ActionListener {
     
     //Constructor
     public UserInterface (int xDim, int yDim)  {
-        on = true; //Flag to turn off camera
+        open = true; //Flag to turn off camera
         myFrame = this;
         
         //North panel 
@@ -101,7 +101,7 @@ public class UserInterface extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()== exitButton) {
-            on = false;
+            open = false;
         }
         if (e.getSource()== button1) {
              System.out.println("Show Tracking");
@@ -132,6 +132,17 @@ public class UserInterface extends JFrame implements ActionListener {
     public void refreshFrame(BufferedImage img){
         globalImg = img;
         repaint();
+    }
+    
+    public void open() throws IOException, InterruptedException {
+        this.refreshFrame(ImageIO.read(new File("StartLogo.jpg")));
+        Thread.sleep(1000);
+    }
+    
+    public void close() throws InterruptedException, IOException {
+        this.refreshFrame(ImageIO.read(new File("ExitLogo.jpg")));
+        Thread.sleep(3000);
+        this.dispose();
     }
     
     //Center panel which contains the video feed
