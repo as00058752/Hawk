@@ -1,6 +1,6 @@
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/05/2020
+Contributors: Anthony Lopez, Jacob Barron, Brandon Dahl
 CS 380 Project
 Goal: 
     Auto-targeting system using image processing. This project will use white
@@ -19,7 +19,8 @@ import java.net.*;
 
 /*
 Author: Anthony Lopez
-Edited by Anh (Steven) Nguyen
+Contributors: Anh(Steven) Nguyen
+Last update: 03/05/2020 by Anh(Steven) Nguyen
  */
 
 class Messenger {

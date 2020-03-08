@@ -1,6 +1,6 @@
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/05/2020
+Contributors: Anthony Lopez, Jacob Barron, Brandon Dahl
 CS 380 Project
 Goal: 
     Auto-targeting system using image processing. This project will use white
@@ -18,13 +18,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
+Last update: 03/07/2020 by Anh(Steven) Nguyen
  */
 
 public class UserInterface extends JFrame implements ActionListener {
-    boolean on;
+    boolean on, mark;
     private static int winxpos=0,winypos=0; // place window here
     private JButton button1,exitButton, button2, button3,
             button4, button5, button6, button7;
@@ -35,7 +41,7 @@ public class UserInterface extends JFrame implements ActionListener {
     BufferedImage globalImg;
     
     //Constructor
-    public UserInterface ()  {
+    public UserInterface (int xDim, int yDim)  {
         on = true; //Flag to turn off camera
         myFrame = this;
         
@@ -43,15 +49,15 @@ public class UserInterface extends JFrame implements ActionListener {
         northPanel = new JPanel();
         northPanel.setBackground(Color.BLUE);
         //North buttons
-        button1 = new JButton("Button 1");
+        button1 = new JButton("Show Tracking");
         northPanel.add(button1);
         button1.addActionListener(this);
-        exitButton = new JButton("Exit");
-        northPanel.add(exitButton);
-        exitButton.addActionListener(this);
-        button2 = new JButton("Button 2");
+        button2 = new JButton("Hide Tracking");
         northPanel.add(button2);
         button2.addActionListener(this);
+        exitButton = new JButton("Exit");
+        exitButton.addActionListener(this);
+        northPanel.add(exitButton);
         button3 = new JButton("Button 3");
         northPanel.add(button3);
         button3.addActionListener(this);
@@ -60,19 +66,19 @@ public class UserInterface extends JFrame implements ActionListener {
         southPanel = new JPanel();
         southPanel.setBackground(Color.BLUE);
         //South buttons
-        button4 = new JButton("Button 4");
+        button4 = new JButton("Target 1");
         button4.setAlignmentX(Component.CENTER_ALIGNMENT);
         southPanel.add(button4);
         button4.addActionListener(this);
-        button5 = new JButton("Button 5");
+        button5 = new JButton("Target 2");
         button5.setAlignmentX(Component.CENTER_ALIGNMENT);
         southPanel.add(button5);
         button5.addActionListener(this);
-        button6 = new JButton("Button 6");
+        button6 = new JButton("Target 3");
         button6.setAlignmentX(Component.CENTER_ALIGNMENT);
         southPanel.add(button6);
         button6.addActionListener(this);
-        button7 = new JButton("Button 7");
+        button7 = new JButton("Target 4");
         button7.setAlignmentX(Component.CENTER_ALIGNMENT);
         southPanel.add(button7);
         button7.addActionListener(this);
@@ -86,22 +92,24 @@ public class UserInterface extends JFrame implements ActionListener {
         getContentPane().add("Center",centerPanel);
         
         //Set size
-        setSize(800,800);
+        setSize(xDim, yDim);
         setLocation(winxpos,winypos);
         setVisible(true);
     }
 
     //Button functions
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()== exitButton) {
             on = false;
-            dispose();
         }
         if (e.getSource()== button1) {
-             System.out.println("Button 1");
+             System.out.println("Show Tracking");
+             mark = true;
         }
         if (e.getSource () == button2){           
-            System.out.println("Button 2");
+            System.out.println("Hide Tracking");
+            mark = false;
         }
         if (e.getSource() == button3){
             System.out.println("Button 3");
@@ -128,6 +136,7 @@ public class UserInterface extends JFrame implements ActionListener {
     
     //Center panel which contains the video feed
     class MenuPanel extends JPanel {
+        @Override
         public void paintComponent (Graphics g) {
             g.drawImage(globalImg, 0, 0, this);
         }

@@ -1,6 +1,6 @@
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/05/2020
+Contributors: Anthony Lopez, Jacob Barron, Brandon Dahl
 CS 380 Project
 Goal: 
     Auto-targeting system using image processing. This project will use white
@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
+Last update: 03/07/2020 by Anh(Steven) Nguyen
  */
 
 public class Eyes {
@@ -53,13 +54,18 @@ public class Eyes {
         ImageIO.write(snapShot, "JPG", new File("Image" + index + ".jpg"));
     }
     
-    //Draws a crosshair on the center of target
+    //Draws a crosshair at the center of target
     public void mark(int xCenter, int yCenter) throws IOException{
         Graphics2D g = snapShot.createGraphics();
         g.drawImage(snapShot, 0, 0, null);
         g.setColor(Color.BLACK);
-        g.drawLine(xCenter - 5, yCenter, xCenter + 5, yCenter);
-        g.drawLine(xCenter, yCenter - 5, xCenter, yCenter +5);
+        g.drawString("Target 1", xCenter - 22, yCenter + 25);
+        g.drawOval(xCenter - 10, yCenter -10, 20, 20);
+        g.setColor(Color.BLUE);
+        g.drawOval(xCenter - 11, yCenter -11, 22, 22);
+        g.drawOval(xCenter - 9, yCenter -9, 18, 18);
+        g.drawLine(xCenter - 7, yCenter, xCenter + 7, yCenter);
+        g.drawLine(xCenter, yCenter - 7, xCenter, yCenter +7);
         g.dispose();
     }
 }
