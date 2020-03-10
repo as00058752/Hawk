@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/07/2020 by Anh(Steven) Nguyen
+Last update: 03/09/2020 by Anh(Steven) Nguyen
  */
 
 public class Main {
@@ -29,7 +29,8 @@ public class Main {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws IOException, InterruptedException {
-        int xDim = 640, yDim =480;
+        int xDim = 640, yDim =480, frames = 1;
+        long timeFlag = System.currentTimeMillis(), currentTime, flag = timeFlag;
         
         Hawk hawk = new Hawk();
         hawk.eyes.resolution(xDim, yDim);
@@ -39,12 +40,21 @@ public class Main {
         display.open();
         
         while (display.open) {
+        //if (System.currentTimeMillis()/200 > flag/200) {    
+            currentTime = System.currentTimeMillis();
+            if (currentTime / 1000 > timeFlag / 1000) {
+                timeFlag = currentTime;
+                hawk.eyes.fps = frames;
+                frames = 0;
+            }
             hawk.getImage();
             hawk.findCenter();
-            if (display.mark)
-                hawk.eyes.mark(hawk.xCenter, hawk.yCenter);
+            hawk.eyes.mark(display.mark, hawk.xCenter, hawk.yCenter, hawk.xI, hawk.xF,
+                    hawk.yI, hawk.yF, display.target1);
             display.refreshFrame(hawk.img);
-        }
+            frames++;
+            flag = currentTime;
+        } //}
         
         display.close();
         hawk.eyes.close();

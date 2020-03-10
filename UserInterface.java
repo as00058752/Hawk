@@ -20,30 +20,26 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/07/2020 by Anh(Steven) Nguyen
+Last update: 03/09/2020 by Anh(Steven) Nguyen
  */
 
 public class UserInterface extends JFrame implements ActionListener {
-    boolean open, mark;
-    private static int winxpos=0,winypos=0; // place window here
-    private JButton button1,exitButton, button2, button3,
+    boolean open, mark, target1, target2, target3, target4;
+    private static final int winxpos=0,winypos=0; // place window here
+    private final JButton button1,exitButton, button2, button3,
             button4, button5, button6, button7;
-    private JPanel northPanel;
-    private JPanel southPanel;
-    private MenuPanel centerPanel;
-    private static JFrame myFrame = null;
+    private final JPanel northPanel;
+    private final JPanel southPanel;
+    private final MenuPanel centerPanel;
     BufferedImage globalImg;
     
     //Constructor
     public UserInterface (int xDim, int yDim)  {
         open = true; //Flag to turn off camera
-        myFrame = this;
         
         //North panel 
         northPanel = new JPanel();
@@ -58,7 +54,7 @@ public class UserInterface extends JFrame implements ActionListener {
         exitButton = new JButton("Exit");
         exitButton.addActionListener(this);
         northPanel.add(exitButton);
-        button3 = new JButton("Button 3");
+        button3 = new JButton("Disengage All");
         northPanel.add(button3);
         button3.addActionListener(this);
         
@@ -112,18 +108,26 @@ public class UserInterface extends JFrame implements ActionListener {
             mark = false;
         }
         if (e.getSource() == button3){
-            System.out.println("Button 3");
+            target1 = false;
+            target2 = false;
+            target3 = false;
+            target4 = false;
+            System.out.println("Disengage All");
         }
         if (e.getSource() == button4){
+            target1 = !target1;
             System.out.println("Button 4");
         }
         if (e.getSource() == button5){
+            target2 = !target2;
             System.out.println("Button 5");
         }
         if (e.getSource() == button6){
+            target3 = !target3;
             System.out.println("Button 6");
         }
         if (e.getSource() == button7){
+            target4 = !target4;
             System.out.println("Button 7");
         }
     }
@@ -141,7 +145,7 @@ public class UserInterface extends JFrame implements ActionListener {
     
     public void close() throws InterruptedException, IOException {
         this.refreshFrame(ImageIO.read(new File("ExitLogo.jpg")));
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         this.dispose();
     }
     
