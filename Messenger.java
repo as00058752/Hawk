@@ -24,11 +24,30 @@ Last update: 03/05/2020 by Anh(Steven) Nguyen
  */
 
 class Messenger {
+    int xPos, yPos;
     ServerSocket server;
+    PrintWriter out;
+    BufferedReader in;
     
     public void configureRoute() throws IOException{
         server = new ServerSocket(8080);
         System.out.println("Standing by on port 8080");
+    }
+    
+    public void connect() throws IOException {
+        try (Socket client = server.accept()) {
+            System.out.println("Connection started on port 8080");
+            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            out = new PrintWriter(client.getOutputStream(), true);
+        }
+    }
+    
+    public void send(int x, int y) throws IOException {
+        out.println(x);
+        in.readLine();
+
+        out.println(y);
+        in.readLine();
     }
     
     public void send() throws IOException {

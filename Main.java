@@ -32,6 +32,10 @@ public class Main {
         int xDim = 640, yDim =480, frames = 1;
         long timeFlag = System.currentTimeMillis(), currentTime, flag = timeFlag;
         
+        Messenger msg = new Messenger();
+        msg.configureRoute();
+        msg.connect();
+        
         Hawk hawk = new Hawk();
         hawk.eyes.resolution(xDim, yDim);
         hawk.eyes.open();
@@ -54,6 +58,8 @@ public class Main {
             display.refreshFrame(hawk.img);
             frames++;
             flag = currentTime;
+            //code to send info to servo
+            msg.send(hawk.xCenter, hawk.yCenter);
         } //}
         
         display.close();
