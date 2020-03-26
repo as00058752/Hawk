@@ -24,7 +24,7 @@ import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/09/2020 by Anh(Steven) Nguyen
+Last update: 03/26/2020 by Anh(Steven) Nguyen
  */
 
 public class UserInterface extends JFrame implements ActionListener {
@@ -37,14 +37,15 @@ public class UserInterface extends JFrame implements ActionListener {
     private final MenuPanel centerPanel;
     BufferedImage globalImg;
     
-    //Constructor
+    ////Constructor
     public UserInterface (int xDim, int yDim)  {
         open = true; //Flag to turn off camera
         
-        //North panel 
+        ////North panel 
         northPanel = new JPanel();
         northPanel.setBackground(Color.BLUE);
-        //North buttons
+        
+        ////North buttons
         button1 = new JButton("Show Tracking");
         northPanel.add(button1);
         button1.addActionListener(this);
@@ -58,10 +59,11 @@ public class UserInterface extends JFrame implements ActionListener {
         northPanel.add(button3);
         button3.addActionListener(this);
         
-        //South panel
+        ////South panel
         southPanel = new JPanel();
         southPanel.setBackground(Color.BLUE);
-        //South buttons
+        
+        ////South buttons
         button4 = new JButton("Target 1");
         button4.setAlignmentX(Component.CENTER_ALIGNMENT);
         southPanel.add(button4);
@@ -79,21 +81,21 @@ public class UserInterface extends JFrame implements ActionListener {
         southPanel.add(button7);
         button7.addActionListener(this);
         
-        //Center panel
+        ////Center panel
         centerPanel = new MenuPanel();
         
-        //Add panels
+        ////Add panels
         getContentPane().add("North",northPanel);
         getContentPane().add("South",southPanel);
         getContentPane().add("Center",centerPanel);
         
-        //Set size
+        ////Set size
         setSize(xDim, yDim);
         setLocation(winxpos,winypos);
         setVisible(true);
     }
 
-    //Button functions
+    ////Button functions
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()== exitButton) {
@@ -132,24 +134,26 @@ public class UserInterface extends JFrame implements ActionListener {
         }
     }
     
-    //Refreshes center panel with selected image
+    ////Refreshes center panel with selected image
     public void refreshFrame(BufferedImage img){
         globalImg = img;
         repaint();
     }
     
+    ////Display openning logo
     public void open() throws IOException, InterruptedException {
         this.refreshFrame(ImageIO.read(new File("StartLogo.jpg")));
         Thread.sleep(1000);
     }
     
+    ////Display exiting logo
     public void close() throws InterruptedException, IOException {
         this.refreshFrame(ImageIO.read(new File("ExitLogo.jpg")));
         Thread.sleep(1000);
         this.dispose();
     }
     
-    //Center panel which contains the video feed
+    ////Center panel which contains the video feed
     class MenuPanel extends JPanel {
         @Override
         public void paintComponent (Graphics g) {

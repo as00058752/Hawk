@@ -20,7 +20,7 @@ import java.net.*;
 /*
 Author: Anthony Lopez
 Contributors: Anh(Steven) Nguyen
-Last update: 03/05/2020 by Anh(Steven) Nguyen
+Last update: 03/26/2020 by Anh(Steven) Nguyen
  */
 
 class Messenger {
@@ -28,54 +28,32 @@ class Messenger {
     ServerSocket server;
     PrintWriter out;
     BufferedReader in;
+    Socket client;
     
+    ////Create socket
     public void configureRoute() throws IOException{
-        server = new ServerSocket(8080);
+        this.server = new ServerSocket(8080);
         System.out.println("Standing by on port 8080");
     }
     
+    ////Connect through port
     public void connect() throws IOException {
-        try (Socket client = server.accept()) {
-            System.out.println("Connection started on port 8080");
-            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            out = new PrintWriter(client.getOutputStream(), true);
+        try {
+            this.client = server.accept();
+            System.out.println("Connecting to Python program");
+            this.in = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
+            this.out = new PrintWriter(this.client.getOutputStream(), true);
+            System.out.println("Connection sucessful!");
+        }
+        catch (Exception e){
+            System.out.println("Connection failed");
         }
     }
     
+    ////Send data through port
     public void send(int x, int y) throws IOException {
-        out.println(x);
-        in.readLine();
-
-        out.println(y);
-        in.readLine();
-    }
-    
-    public void send() throws IOException {
-        int x;
-        int y;
-
-        boolean run = true;
-        while(run) {
-            try (Socket client = server.accept()) {
-                System.out.println("Connection started on port 8080");
-                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-                //String fromClient;
-                for(y = 160; y <= 200; y+=2) {
-                    for(x = 160; x <= 200; x+=2) {
-                        out.println(x);
-                        in.readLine();
-                        
-                        out.println(y);
-                        in.readLine();
-                        
-                        //System.out.printf("X: %d Y: %d\n", x, y);
-                    }
-                }
-            }
-            run = false;
-            System.out.println("Socket Closed");
-
-        }
+        this.out.println(x);
+        this.out.println(y);
+        System.out.println("(" + x + ", " + y + ")");
     }
 }

@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/09/2020 by Anh(Steven) Nguyen
+Last update: 03/26/2020 by Anh(Steven) Nguyen
  */
 
 public class Main {
@@ -30,39 +30,50 @@ public class Main {
      */
     public static void main(String[] args) throws IOException, InterruptedException {
         int xDim = 640, yDim =480, frames = 1;
-        long timeFlag = System.currentTimeMillis(), currentTime, flag = timeFlag;
+        long timeFlag = System.currentTimeMillis(), currentTime;
         
+        ////Messenger object used to send data to Servo-contro program
         Messenger msg = new Messenger();
         msg.configureRoute();
         msg.connect();
         
+        ////Hawk object
         Hawk hawk = new Hawk();
-        hawk.eyes.resolution(xDim, yDim);
-        hawk.eyes.open();
+        hawk.eyes.resolution(xDim, yDim); //set camera's resolution
+        hawk.eyes.open(); //turn on camera
         
+        ////UserInterface object used to display and interact with the GUI
         UserInterface display = new UserInterface(xDim, yDim + 110);
         display.open();
         
+        ////This loop processes one frame per cycle
         while (display.open) {
-        //if (System.currentTimeMillis()/200 > flag/200) {    
-            currentTime = System.currentTimeMillis();
-            if (currentTime / 1000 > timeFlag / 1000) {
-                timeFlag = currentTime;
-                hawk.eyes.fps = frames;
-                frames = 0;
-            }
-            hawk.getImage();
-            hawk.findCenter();
-            hawk.eyes.mark(display.mark, hawk.xCenter, hawk.yCenter, hawk.xI, hawk.xF,
-                    hawk.yI, hawk.yF, display.target1);
-            display.refreshFrame(hawk.img);
-            frames++;
-            flag = currentTime;
-            //code to send info to servo
-            msg.send(hawk.xCenter, hawk.yCenter);
-        } //}
+            ////Optional if-statement to throtle the FPS
+            //if (System.currentTimeMillis()/200 > flag/200) {    
+                
+                ////Count the number of frames processed every second
+                currentTime = System.currentTimeMillis();
+                if (currentTime / 1000 > timeFlag / 1000) {
+                    timeFlag = currentTime;
+                    hawk.eyes.fps = frames;
+                    frames = 0;
+                } //End of if
+                
+                ////Get frame from camera, mark center or target, display frame
+                hawk.getImage();
+                hawk.findCenter();
+                hawk.eyes.mark(display.mark, hawk.xCenter, hawk.yCenter, 
+                        hawk.xI, hawk.xF, hawk.yI, hawk.yF, display.target1);
+                display.refreshFrame(hawk.img);
+                
+                frames++; //Keep track of the number of processed frames
+                
+                msg.send(hawk.xCenter, hawk.yCenter); //send info to servo-control program
+            //} //End of if
+        } //End of while
         
-        display.close();
-        hawk.eyes.close();
+        msg.send(-1, -1); //flag to end connection to servo-control program
+        display.close(); //close GUI window
+        hawk.eyes.close(); //turn off camera
     }
 }
