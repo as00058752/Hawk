@@ -49,7 +49,7 @@ public class Main {
         ////This loop processes one frame per cycle
         while (display.open) {
             ////Optional if-statement to throtle the FPS
-            //if (System.currentTimeMillis()/200 > flag/200) {    
+            //if (System.currentTimeMillis()/200 > timeFlag/200) {    
                 
                 ////Count the number of frames processed every second
                 currentTime = System.currentTimeMillis();
