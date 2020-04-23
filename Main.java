@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/26/2020 by Anh(Steven) Nguyen
+Last update: 04/23/2020 by Anh(Steven) Nguyen
  */
 
 public class Main {
@@ -31,6 +31,12 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         int xDim = 640, yDim =480, frames = 1;
         long timeFlag = System.currentTimeMillis(), currentTime;
+        
+        
+        ///Environment object
+        Environment field = new Environment();
+        field.map();
+        
         
         ////Messenger object used to send data to Servo-contro program
         Messenger msg = new Messenger();
@@ -62,8 +68,9 @@ public class Main {
                 ////Get frame from camera, mark center or target, display frame
                 hawk.getImage();
                 hawk.findCenter();
-                hawk.eyes.mark(display.mark, hawk.xCenter, hawk.yCenter, 
-                        hawk.xI, hawk.xF, hawk.yI, hawk.yF, display.target1);
+                hawk.eyes.mark(display.mark, display.mapping, hawk.xCenter, hawk.yCenter, 
+                        hawk.xI, hawk.xF, hawk.yI, hawk.yF, display.target1, 
+                        field.frame[hawk.xCenter][hawk.yCenter], field);
                 display.refreshFrame(hawk.img);
                 
                 frames++; //Keep track of the number of processed frames

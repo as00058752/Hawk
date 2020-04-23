@@ -20,7 +20,7 @@ import java.net.*;
 /*
 Author: Anthony Lopez
 Contributors: Anh(Steven) Nguyen
-Last update: 03/26/2020 by Anh(Steven) Nguyen
+Last update: 04/23/2020 by Anh(Steven) Nguyen
  */
 
 class Messenger {
@@ -32,8 +32,8 @@ class Messenger {
     
     ////Create socket
     public void configureRoute() throws IOException{
-        this.server = new ServerSocket(8080);
-        System.out.println("Standing by on port 8080");
+        this.server = new ServerSocket(8070);
+        System.out.println("Standing by on port 8070");
     }
     
     ////Connect through port

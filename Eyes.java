@@ -27,12 +27,13 @@ import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/09/2020 by Anh(Steven) Nguyen
+Last update: 04/23/2020 by Anh(Steven) Nguyen
  */
 
 public class Eyes {
     private final Webcam source = Webcam.getDefault();
     private BufferedImage snapShot = null;
+    Environment room = new Environment();
     int fps = 0;
     
     public void resolution(int w, int h){
@@ -58,8 +59,8 @@ public class Eyes {
     }
     
     //Draws a crosshair at the center of target
-    public void mark(boolean flag, int xCenter, int yCenter, int xI, int xF, 
-            int yI, int yF, boolean target1) throws IOException{
+    public void mark(boolean flagMark, boolean flagMapping, int xCenter, int yCenter, int xI, int xF, 
+            int yI, int yF, boolean target1, Pixel pixel, Environment environment) throws IOException{
         Graphics2D g = snapShot.createGraphics();
         g.drawImage(snapShot, 0, 0, null);
         
@@ -67,8 +68,11 @@ public class Eyes {
         g.drawString("HAWK System", 20, 20);
         g.drawString(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()), 20, 35);
         g.drawString("FPS: " + fps, 20, 50);
+        g.drawString("Pan: " + pixel.pan, 20, 65);
+        g.drawString("Tilt: " + pixel.tilt, 20, 80);
         
-        if (flag) {
+        
+        if (flagMark) {
             if (!target1) {
                 g.drawString("Target 1", xCenter - 22, yCenter + 25);
                 g.drawOval(xCenter - 10, yCenter -10, 20, 20);
@@ -98,6 +102,21 @@ public class Eyes {
                 g.drawLine(xCenter, yCenter - 7, xCenter, yCenter +7);
             }
         }
+        
+        if (flagMapping) {
+            g.setColor(Color.BLUE);
+            for (int i = 50; i <= 130; i += 20)
+                g.drawPolyline(environment.pan[i].xPan, environment.pan[i].yPan, environment.pan[i].nx);
+            for (int i = 80; i <= 130; i += 10)
+                g.drawPolyline(environment.tilt[i].xTilt, environment.tilt[i].yTilt, environment.tilt[i].ny);
+            g.setColor(Color.red);
+            //g.drawArc(100, 100, 100, 100, 30, 150);
+            //g.drawArc(100, 200, 100, 100, 45, 135);
+            g.drawPolyline(pixel.xPan, pixel.yPan, pixel.nx);
+            g.drawPolyline(pixel.xTilt, pixel.yTilt, pixel.ny);
+            //g.drawString("Mapping is working", 100, 100);
+        }
+        
         g.dispose();
     }
 }

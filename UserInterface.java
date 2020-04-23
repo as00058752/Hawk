@@ -24,11 +24,11 @@ import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 03/26/2020 by Anh(Steven) Nguyen
+Last update: 04/23/2020 by Anh(Steven) Nguyen
  */
 
 public class UserInterface extends JFrame implements ActionListener {
-    boolean open, mark, target1, target2, target3, target4;
+    boolean open, mark, mapping, target1, target2, target3, target4;
     private static final int winxpos=0,winypos=0; // place window here
     private final JButton button1,exitButton, button2, button3,
             button4, button5, button6, button7;
@@ -49,7 +49,7 @@ public class UserInterface extends JFrame implements ActionListener {
         button1 = new JButton("Show Tracking");
         northPanel.add(button1);
         button1.addActionListener(this);
-        button2 = new JButton("Hide Tracking");
+        button2 = new JButton("Show Mapping");
         northPanel.add(button2);
         button2.addActionListener(this);
         exitButton = new JButton("Exit");
@@ -103,11 +103,11 @@ public class UserInterface extends JFrame implements ActionListener {
         }
         if (e.getSource()== button1) {
              System.out.println("Show Tracking");
-             mark = true;
+             mark = !mark;
         }
         if (e.getSource () == button2){           
-            System.out.println("Hide Tracking");
-            mark = false;
+            System.out.println("Show Mapping");
+            mapping = !mapping;
         }
         if (e.getSource() == button3){
             target1 = false;
