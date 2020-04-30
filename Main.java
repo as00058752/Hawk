@@ -14,11 +14,12 @@ Goal:
  */
 package hawk;
 
+import java.io.File;
 import java.io.IOException;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 04/23/2020 by Anh(Steven) Nguyen
+Last update: 04/29/2020 by Anh(Steven) Nguyen
  */
 
 public class Main {
@@ -33,10 +34,15 @@ public class Main {
         long timeFlag = System.currentTimeMillis(), currentTime;
         
         
+        File panAngle = new File("panAngle.txt");
+        File tiltAngle = new File("tiltAngle.txt");
+        File panArrayX = new File("panArrayX.txt");
+        File panArrayY = new File("panArrayY.txt");
+        File tiltArrayX = new File("tiltArrayX.txt");
+        File tiltArrayY = new File("tiltArrayY.txt");
         ///Environment object
         Environment field = new Environment();
-        field.map();
-        
+        field.map(panArrayX, panArrayY, tiltArrayX, tiltArrayY, panAngle, tiltAngle);
         
         ////Messenger object used to send data to Servo-contro program
         Messenger msg = new Messenger();
@@ -51,6 +57,8 @@ public class Main {
         ////UserInterface object used to display and interact with the GUI
         UserInterface display = new UserInterface(xDim, yDim + 110);
         display.open();
+        
+        
         
         ////This loop processes one frame per cycle
         while (display.open) {

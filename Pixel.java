@@ -26,7 +26,7 @@ public class Pixel {
     int[] yTilt = new int[641];
     int[] xPan = new int[641];
     int[] yPan = new int[641];
-    int nx = 0;
-    int ny = 0;
+    int nPan = 100;
+    int nTilt = 100;
     
 }

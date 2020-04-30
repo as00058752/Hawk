@@ -27,7 +27,7 @@ import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 04/23/2020 by Anh(Steven) Nguyen
+Last update: 04/29/2020 by Anh(Steven) Nguyen
  */
 
 public class Eyes {
@@ -106,14 +106,15 @@ public class Eyes {
         if (flagMapping) {
             g.setColor(Color.BLUE);
             for (int i = 50; i <= 130; i += 20)
-                g.drawPolyline(environment.pan[i].xPan, environment.pan[i].yPan, environment.pan[i].nx);
+                g.drawPolyline((int[]) environment.tiltArrayX[i], (int[]) environment.tiltArrayY[i], environment.tiltArrayN[i]);
             for (int i = 80; i <= 130; i += 10)
-                g.drawPolyline(environment.tilt[i].xTilt, environment.tilt[i].yTilt, environment.tilt[i].ny);
+                g.drawPolyline((int[]) environment.panArrayX[i], (int[]) environment.panArrayY[i], environment.panArrayN[i]);
+            
             g.setColor(Color.red);
             //g.drawArc(100, 100, 100, 100, 30, 150);
             //g.drawArc(100, 200, 100, 100, 45, 135);
-            g.drawPolyline(pixel.xPan, pixel.yPan, pixel.nx);
-            g.drawPolyline(pixel.xTilt, pixel.yTilt, pixel.ny);
+            g.drawPolyline(pixel.xPan, pixel.yPan, pixel.nPan);
+            g.drawPolyline(pixel.xTilt, pixel.yTilt, pixel.nTilt);
             //g.drawString("Mapping is working", 100, 100);
         }
         
