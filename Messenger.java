@@ -20,7 +20,7 @@ import java.net.*;
 /*
 Author: Anthony Lopez
 Contributors: Anh(Steven) Nguyen
-Last update: 04/23/2020 by Anh(Steven) Nguyen
+Last update: 05/03/2020 by Anh(Steven) Nguyen
  */
 
 class Messenger {
@@ -32,8 +32,8 @@ class Messenger {
     
     ////Create socket
     public void configureRoute() throws IOException{
-        this.server = new ServerSocket(8070);
-        System.out.println("Standing by on port 8070");
+        this.server = new ServerSocket(8190);
+        System.out.println("Standing by on port 8190");
     }
     
     ////Connect through port
@@ -51,9 +51,22 @@ class Messenger {
     }
     
     ////Send data through port
-    public void send(int x, int y) throws IOException {
+    public void send(int x, int y, boolean on) throws IOException, InterruptedException {
+        int i;
+        
         this.out.println(x);
+        i = this.in.read();
+        
         this.out.println(y);
-        System.out.println("(" + x + ", " + y + ")");
+        i = this.in.read();
+        
+        if (on)
+            this.out.println(1);
+        else
+            this.out.println(0);
+        i = this.in.read();
+        
+        System.out.println("(" + x + ", " + y + ") " + on);
+        Thread.sleep(10);
     }
 }

@@ -27,7 +27,7 @@ import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 04/29/2020 by Anh(Steven) Nguyen
+Last update: 05/03/2020 by Anh(Steven) Nguyen
  */
 
 public class Eyes {

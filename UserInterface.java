@@ -24,16 +24,14 @@ import javax.imageio.ImageIO;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 04/23/2020 by Anh(Steven) Nguyen
+Last update: 05/03/2020 by Anh(Steven) Nguyen
  */
 
 public class UserInterface extends JFrame implements ActionListener {
-    boolean open, mark, mapping, target1, target2, target3, target4;
+    boolean open, mark, mapping, target;
     private static final int winxpos=0,winypos=0; // place window here
-    private final JButton button1,exitButton, button2, button3,
-            button4, button5, button6, button7;
-    private final JPanel northPanel;
-    private final JPanel southPanel;
+    private final JButton button1,exitButton, button2, button3;
+    private final JPanel northPanel, southPanel;
     private final MenuPanel centerPanel;
     BufferedImage globalImg;
     
@@ -52,41 +50,25 @@ public class UserInterface extends JFrame implements ActionListener {
         button2 = new JButton("Show Mapping");
         northPanel.add(button2);
         button2.addActionListener(this);
-        exitButton = new JButton("Exit");
-        exitButton.addActionListener(this);
-        northPanel.add(exitButton);
-        button3 = new JButton("Disengage All");
-        northPanel.add(button3);
-        button3.addActionListener(this);
         
         ////South panel
         southPanel = new JPanel();
         southPanel.setBackground(Color.BLUE);
         
-        ////South buttons
-        button4 = new JButton("Target 1");
-        button4.setAlignmentX(Component.CENTER_ALIGNMENT);
-        southPanel.add(button4);
-        button4.addActionListener(this);
-        button5 = new JButton("Target 2");
-        button5.setAlignmentX(Component.CENTER_ALIGNMENT);
-        southPanel.add(button5);
-        button5.addActionListener(this);
-        button6 = new JButton("Target 3");
-        button6.setAlignmentX(Component.CENTER_ALIGNMENT);
-        southPanel.add(button6);
-        button6.addActionListener(this);
-        button7 = new JButton("Target 4");
-        button7.setAlignmentX(Component.CENTER_ALIGNMENT);
-        southPanel.add(button7);
-        button7.addActionListener(this);
+        ////South Buttons
+        button3 = new JButton("Engage");
+        southPanel.add(button3);
+        button3.addActionListener(this);
+        exitButton = new JButton("Exit");
+        southPanel.add(exitButton);
+        exitButton.addActionListener(this);
         
         ////Center panel
         centerPanel = new MenuPanel();
         
         ////Add panels
-        getContentPane().add("North",northPanel);
-        getContentPane().add("South",southPanel);
+        getContentPane().add("North", northPanel);
+        getContentPane().add("South", southPanel);
         getContentPane().add("Center",centerPanel);
         
         ////Set size
@@ -102,35 +84,13 @@ public class UserInterface extends JFrame implements ActionListener {
             open = false;
         }
         if (e.getSource()== button1) {
-             System.out.println("Show Tracking");
              mark = !mark;
         }
         if (e.getSource () == button2){           
-            System.out.println("Show Mapping");
             mapping = !mapping;
         }
         if (e.getSource() == button3){
-            target1 = false;
-            target2 = false;
-            target3 = false;
-            target4 = false;
-            System.out.println("Disengage All");
-        }
-        if (e.getSource() == button4){
-            target1 = !target1;
-            System.out.println("Button 4");
-        }
-        if (e.getSource() == button5){
-            target2 = !target2;
-            System.out.println("Button 5");
-        }
-        if (e.getSource() == button6){
-            target3 = !target3;
-            System.out.println("Button 6");
-        }
-        if (e.getSource() == button7){
-            target4 = !target4;
-            System.out.println("Button 7");
+            target = !target;
         }
     }
     

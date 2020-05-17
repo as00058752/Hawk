@@ -19,7 +19,7 @@ import java.io.IOException;
 
 /*
 Author: Anh (Steven) Nguyen
-Last update: 04/29/2020 by Anh(Steven) Nguyen
+Last update: 05/03/2020 by Anh(Steven) Nguyen
  */
 
 public class Main {
@@ -33,13 +33,13 @@ public class Main {
         int xDim = 640, yDim =480, frames = 1;
         long timeFlag = System.currentTimeMillis(), currentTime;
         
-        
         File panAngle = new File("panAngle.txt");
         File tiltAngle = new File("tiltAngle.txt");
         File panArrayX = new File("panArrayX.txt");
         File panArrayY = new File("panArrayY.txt");
         File tiltArrayX = new File("tiltArrayX.txt");
         File tiltArrayY = new File("tiltArrayY.txt");
+        
         ///Environment object
         Environment field = new Environment();
         field.map(panArrayX, panArrayY, tiltArrayX, tiltArrayY, panAngle, tiltAngle);
@@ -58,13 +58,10 @@ public class Main {
         UserInterface display = new UserInterface(xDim, yDim + 110);
         display.open();
         
-        
-        
         ////This loop processes one frame per cycle
         while (display.open) {
             ////Optional if-statement to throtle the FPS
             //if (System.currentTimeMillis()/200 > timeFlag/200) {    
-                
                 ////Count the number of frames processed every second
                 currentTime = System.currentTimeMillis();
                 if (currentTime / 1000 > timeFlag / 1000) {
@@ -76,19 +73,23 @@ public class Main {
                 ////Get frame from camera, mark center or target, display frame
                 hawk.getImage();
                 hawk.findCenter();
-                hawk.eyes.mark(display.mark, display.mapping, hawk.xCenter, hawk.yCenter, 
-                        hawk.xI, hawk.xF, hawk.yI, hawk.yF, display.target1, 
-                        field.frame[hawk.xCenter][hawk.yCenter], field);
+                hawk.eyes.mark(display.mark, display.mapping, hawk.xCenter, 
+                        hawk.yCenter, hawk.xI, hawk.xF, hawk.yI, hawk.yF, 
+                        display.target, field.frame[hawk.xCenter][hawk.yCenter], 
+                        field);
                 display.refreshFrame(hawk.img);
                 
                 frames++; //Keep track of the number of processed frames
                 
-                msg.send(hawk.xCenter, hawk.yCenter); //send info to servo-control program
+                ////send info to servo-control program
+                msg.send(field.frame[hawk.xCenter][hawk.yCenter].pan, 
+                        field.frame[hawk.xCenter][hawk.yCenter].tilt, display.target);
             //} //End of if
         } //End of while
         
-        msg.send(-1, -1); //flag to end connection to servo-control program
+        msg.send(-1, -1, false); //flag to end connection to servo-control program
         display.close(); //close GUI window
         hawk.eyes.close(); //turn off camera
+        
     }
 }
